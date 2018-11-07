@@ -1,315 +1,503 @@
 <h1 align="center">Buku</h1>
 
 <p align="center">
-<a href="https://aur.archlinux.org/packages/buku"><img src="https://img.shields.io/aur/version/buku.svg" alt="AUR" /></a>
-<a href="http://braumeister.org/formula/buku"><img src="https://img.shields.io/homebrew/v/buku.svg" alt="Homebrew" /></a>
-<a href="https://github.com/jarun/Buku/releases/latest"><img src="https://img.shields.io/github/release/jarun/buku.svg" alt="Latest release" /></a>
+<a href="https://github.com/jarun/Buku/releases/latest"><img src="https://img.shields.io/github/release/jarun/buku.svg?maxAge=600" alt="Latest release" /></a>
+<a href="https://aur.archlinux.org/packages/buku"><img src="https://img.shields.io/aur/version/buku.svg?maxAge=600" alt="AUR" /></a>
+<a href="http://formulae.brew.sh/formula/buku"><img src="https://img.shields.io/homebrew/v/buku.svg?maxAge=600" alt="Homebrew" /></a>
+<a href="https://pypi.python.org/pypi/buku"><img src="https://img.shields.io/pypi/v/buku.svg?maxAge=600" alt="PyPI" /></a>
+<a href="https://packages.debian.org/search?keywords=buku&searchon=names&exact=1"><img src="https://img.shields.io/badge/debian-9+-blue.svg?maxAge=2592000" alt="Debian Stretch+" /></a>
+<a href="https://apps.fedoraproject.org/packages/buku"><img src="https://img.shields.io/badge/fedora-27+-blue.svg?maxAge=2592000" alt="Fedora 27+" /></a>
+<a href="https://software.opensuse.org/search?q=buku"><img src="https://img.shields.io/badge/opensuse%20leap-15.0+-blue.svg?maxAge=2592000" alt="openSUSE Leap 15.0+" /></a>
+<a href="https://packages.ubuntu.com/search?keywords=buku&searchon=names&exact=1"><img src="https://img.shields.io/badge/ubuntu-17.04+-blue.svg?maxAge=2592000" alt="Ubuntu Zesty+" /></a>
+</p>
+
+<p align="center">
+<a href="https://travis-ci.org/jarun/Buku"><img src="https://img.shields.io/travis/jarun/Buku.svg" alt="Build Status" /></a>
+<a href="http://buku.readthedocs.io/en/latest/?badge=latest"><img src="https://readthedocs.org/projects/buku/badge/?version=latest" alt="Docs Status" /></a>
+<a href="https://snyk.io/test/github/jarun/Buku"><img src="https://snyk.io/test/github/jarun/Buku/badge.svg" /></a>
 <a href="https://github.com/jarun/buku/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-yellow.svg?maxAge=2592000" alt="License" /></a>
 </p>
 
 <p align="center">
-<a href="https://asciinema.org/a/6x3nu7ez9t0flk1knhiabwduv"><img src="https://asciinema.org/a/6x3nu7ez9t0flk1knhiabwduv.png" alt="Asciicast" width="600"/></a>
+<a href="https://asciinema.org/a/137065"><img src="https://asciinema.org/a/137065.png" alt="Buku in action!" width="734"/></a>
 </p>
 
-`buku` is a powerful cmdline bookmark management utility written in Python3 and SQLite3. When I started writing it, I couldn't find a flexible cmdline solution with a portable database. Hence, `Buku` (after my son's nickname).
+<p align="center"><i>Buku in action!</i></p>
 
-You can add bookmarks to `buku` with tags and page title fetched from the web, search, update and remove bookmarks. You can open the URLs from search results directly in the browser. Encryption is supported, optionally with custom number of hash passes for key generation.
+### Introduction
 
-`buku` can also handle piped input, which lets you combine it with `xsel` (on Linux) and use a shortcut to add selected or copied text as bookmark without touching the terminal.
-Ref: [buku & xsel: add selected or copied URL as bookmark](http://tuxdiary.com/2016/03/26/buku-xsel/)
+`buku` is a powerful bookmark manager written in Python3 and SQLite3. When I started writing it, I couldn't find a flexible cmdline solution with a private, portable, merge-able database along with seamless GUI integration. Hence, `Buku` (after my son's nickname, meaning *close to the heart* in my language).
 
-Find `buku` useful? If you would like to donate, visit the
-[![Donate Button](https://img.shields.io/badge/paypal-donate-orange.svg?maxAge=2592000)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q) page.
+`buku` fetches the title, tags and description of a bookmarked url from the web and stores it. You can use your favourite editor to compose and update bookmarks. With multiple search options, including regex and a deep scan mode (particularly for URLs), it can find any bookmark instantly. Multiple search results can be opened in the browser at once. `buku` can look up the latest snapshot of a broken link on the Wayback Machine. There's an Easter egg to revisit random forgotten bookmarks too! *Buku* is too busy to track you - no hidden history, obsolete records, usage analytics or homing. For more details, please refer to the wiki page on [operational notes](https://github.com/jarun/Buku/wiki/Operational-notes).
 
-Copyright (C) 2015 [Arun Prakash Jana](mailto:engineerarun@gmail.com).
+[bukuserver](https://github.com/jarun/Buku/tree/master/bukuserver) exposes a browsable frontend on a local webhost server.
 
-# Features
+To get started right away, jump to the [Quickstart](#quickstart) section. We have one of the best documentation around. You'll find handy examples in the man page too.
 
-- Add, update or remove a bookmark
-- Tag bookmarks
-- Manual password protection using AES256 encryption
-- Fetch page title from the web (default) or add a custom page title manually
-- Use (partial) tags or keywords to search bookmarks
-- Any or all search keyword match options
-- Unique URLs to avoid duplicates
-- Open search results in browser
-- Open bookmark in browser using index
-- Handle piped input (combine with xsel and add bookmarks directly from browser)
-- Supports HTTP compression
-- Optional Json formatted output
-- Modify or delete tags in DB
-- Show all unique tags sorted alphabetically
-- Show single bookmark by ID or all bookmarks in a go
-- Refresh all bookmarks online
-- Auto DB compaction on bookmark removal
-- Delete all bookmarks from DB
-- Show all bookmarks with empty titles or no tags (for bookkeeping)
-- Supports Unicode characters in URL
-- UTF-8 request and response, page character set detection
-- Secure parameterized SQLite3 queries to access database
-- Handle multiple HTTP redirections (reports redirected URL, loops, IP blocking)
-- Coloured output for clarity
-- Easily create compatible batch add or update scripts
-- Unformatted selective output (for creating batch update scripts)
-- Manpage with examples for quick reference
-- Fast and clean (no ads or clutter)
-- Minimal dependencies
-- Open source and free
+There are several [projects based on `buku`](#related-projects), including a browser plug-in.
 
-# Table of Contents
+*Love smart and efficient utilities? Explore [my repositories](https://github.com/jarun?tab=repositories). Buy me a cup of coffee if they help you.*
 
+<p align="center">
+<a href="https://saythanks.io/to/jarun"><img src="https://img.shields.io/badge/say-thanks!-ff69b4.svg" /></a>
+<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=RMLTQ76JSXJ4Q"><img src="https://img.shields.io/badge/PayPal-donate-green.svg" alt="Donate via PayPal!" /></a>
+</p>
+
+### Table of Contents
+
+- [Features](#features)
 - [Installation](#installation)
   - [Dependencies](#dependencies)
-  - [Installing from this repository](#installing-from-this-repository)
-  - [Running as a standalone utility](#running-as-a-standalone-utility)
-  - [Installing with a package manager](#installing-with-a-package-manager)
+  - [From a package manager](#from-a-package-manager)
+  - [Release packages](#release-packages)
+  - [From source](#from-source)
+  - [Running standalone](#running-standalone)
+- [Shell completion](#shell-completion)
 - [Usage](#usage)
   - [Cmdline options](#cmdline-options)
-  - [Operational notes](#operational-notes)
+  - [Colors](#colors)
+- [Quickstart](#quickstart)
 - [Examples](#examples)
-  - [Bookkeeping](#bookkeeping)
+- [Troubleshooting](#troubleshooting)
+  - [Editor integration](#editor-integration)
+- [Collaborators](#collaborators)
 - [Contributions](#contributions)
-- [Developers](#developers)
+- [Related projects](#related-projects)
+- [In the Press](#in-the-press)
 
-# Installation
+### Features
 
-## Dependencies
-`buku` requires Python 3.x to work.
+- Store bookmarks with auto-fetched title, tags and description
+- Auto-import from Firefox, Google Chrome and Chromium
+- Open bookmarks and search results in browser
+- Shorten, expand URLs, browse cached page from Wayback Machine
+- Text editor integration
+- Lightweight, clean interface, custom colors
+- Powerful search options (regex, substring...)
+- Continuous search with on the fly mode switch
+- Portable, merge-able database to sync between systems
+- Import/export bookmarks from/to HTML, Markdown or Orgfile
+- Smart tag management using redirection (>>, >, <<)
+- Multithreaded full DB refresh, manual encryption support
+- Shell completion scripts, man page with handy examples
 
-For optional encryption support, install PyCrypto module. Run:
+### Installation
 
-    $ sudo pip3 install pycrypto
+#### Dependencies
+
+| Feature | Dependency |
+| --- | --- |
+| Scripting language | Python 3.4+ |
+| HTTPS | certifi, urllib3 |
+| Encryption | cryptography |
+| HTML | beautifulsoup4, html5lib |
+
+To install package dependencies using pip3, run:
+
+    # pip3 install certifi urllib3 cryptography beautifulsoup4
 or on Ubuntu:
 
-    $ sudo apt-get install python3-crypto
-## Installing from this repository
-If you have git installed, run:
+    # apt-get install ca-certificates python3-urllib3 python3-cryptography python3-bs4
 
-    $ git clone https://github.com/jarun/buku/
-or download the latest [stable release](https://github.com/jarun/Buku/releases/latest) or [development version](https://github.com/jarun/buku/archive/master.zip).
+To copy url to clipboard at the prompt `Buku` uses `xsel` (or `xclip`) on Linux, `pbcopy` (default installed) on OS X, `clip` (default installed) on Windows, `termux-clipboard` on Termux (terminal emulation for Android). If X11 is missing, GNU Screen or tmux copy-paste buffers are recognized.
 
-Install to default location:
+#### From a package manager
+
+- [AUR](https://aur.archlinux.org/packages/buku/) (`yay -S buku`)
+- [Debian](https://packages.debian.org/search?keywords=buku&searchon=names&exact=1) (`apt-get install buku`)
+- [Fedora](https://apps.fedoraproject.org/packages/buku) (`dnf install buku`)
+- [FreeBSD](https://www.freshports.org/www/py-buku/) (`pkg install www/py-buku`)
+- [Gentoo](https://packages.gentoo.org/packages/www-misc/buku) (`emerge buku`)
+- [Homebrew](http://formulae.brew.sh/formula/buku) (`brew install buku`)
+- [NixOS](https://github.com/NixOS/nixpkgs/tree/master/pkgs/applications/misc/buku) (`nix-env -i buku`)
+- [OpenBSD](https://cvsweb.openbsd.org/cgi-bin/cvsweb/ports/www/buku/) (`pkg_add buku`)
+- [openSUSE](https://software.opensuse.org/search?q=buku) (`zypper in python3-buku`)
+- [PyPi](https://pypi.python.org/pypi/buku/) (`pip3 install buku`)
+- [Ubuntu](https://packages.ubuntu.com/search?keywords=buku&searchon=names&exact=1) (`apt-get install buku`)
+- [Ubuntu PPA](https://launchpad.net/~twodopeshaggy/+archive/ubuntu/jarun/) (`apt-get install buku`)
+- [Void Linux](https://github.com/voidlinux/void-packages/tree/master/srcpkgs/buku) (`xbps-install -S buku`)
+
+#### Release packages
+
+Packages for Arch Linux, CentOS, Debian, Fedora, openSUSE Leap and Ubuntu are available with the [latest stable release](https://github.com/jarun/Buku/releases/latest).
+
+NOTE: CentOS may not have the python3-beautifulsoup4 package in the repos. Install it using pip3.
+
+#### From source
+
+If you have git installed, clone this repository. Otherwise download the [latest stable release](https://github.com/jarun/Buku/releases/latest) or [development version](https://github.com/jarun/Buku/archive/master.zip) (*risky*).
+
+Install to default location (`/usr/local`):
 
     $ sudo make install
-or, a custom location (PREFIX):
-
-    $ PREFIX=/path/to/prefix make install
 
 To remove, run:
 
     $ sudo make uninstall
-or, if you have installed to a custom location (PREFIX):
 
-    $ PREFIX=/path/to/prefix make uninstall
-You may need to use `sudo` with `PREFIX` depending on your permissions on destination directory.
+`PREFIX` is supported, in case you want to install to a different location.
 
-## Running as a standalone utility
+#### Running standalone
+
 `buku` is a standalone utility. From the containing directory, run:
 
-    $ ./buku
-## Installing with a package manager
-`buku` is also available on
- - [AUR](https://aur.archlinux.org/packages/buku/) for Arch Linux
- - Void Linux repos ( `$ sudo xbps-install -S buku` )
- - [Homebrew](http://braumeister.org/formula/buku) for OS X, or its Linux fork, [Linuxbrew](https://github.com/Linuxbrew/linuxbrew/blob/master/Library/Formula/buku.rb)
+    $ chmod +x buku.py
+    $ ./buku.py
 
-# Usage
+### Shell completion
 
-## Cmdline options
+Shell completion scripts for Bash, Fish and Zsh can be found in respective subdirectories of [auto-completion/](https://github.com/jarun/Buku/blob/master/auto-completion). Please refer to your shell's manual for installation instructions.
 
-    Usage: buku OPTIONS [URL] [TAGS] [KEYWORDS ...]
+### Usage
 
-    A private cmdline bookmark manager. Your mini web!
+#### Cmdline options
 
-    General options
-      -a URL [tags]        add URL as bookmark with comma separated tags
-      -d N                 delete entry at DB index N (from -p 0), N=0 deletes all
-      -g                   list all tags alphabetically
-      -m title             manually set title, for -a, -i, -u; '-m none' clears title
-      -s keyword(s)        search bookmarks for any keyword
-      -S keyword(s)        search bookmarks with all keywords
-      -u N [URL] [tags]    update fields of the entry at DB index N
-                           The first keyword, if available, is treated as the URL.
-                           If URL is omitted (and -m is not used) the title of entry at
-                           index N is refreshed from the web, N=0 refreshes all titles.
+```
+usage: buku [OPTIONS] [KEYWORD [KEYWORD ...]]
 
-    Power toys
-      -e                   show bookmarks with empty titles or no tags
-      -i N                 insert new bookmark at free DB index N
-      -j                   show results in Json format
-      -k                   decrypt (unlock) database file
-      -l                   encrypt (lock) database file
-      -o N                 open URL at DB index N in browser
-      -p N                 show details of bookmark record at DB index N, N=0 shows all
-      -r oldtag [newtag]   replace oldtag with newtag, delete oldtag if newtag empty
-      -t N                 use N (> 0) hash iterations to generate key, for -k, -l
-      -x N                 modify -p behaviour, N=1: show only URL, N=2: show URL & tag
-      -z                   show debug information
+Bookmark manager like a text-based mini-web.
 
-    Prompt keys
-      1-N                  open Nth search result in browser
-      Enter                exit buku
+POSITIONAL ARGUMENTS:
+      KEYWORD              search keywords
 
-## Operational notes
+GENERAL OPTIONS:
+      -a, --add URL [tag, ...]
+                           bookmark URL with comma-separated tags
+      -u, --update [...]   update fields of an existing bookmark
+                           accepts indices and ranges
+                           refresh title, desc, tags if no edit options
+                           if no arguments:
+                           - update results when used with search
+                           - otherwise refresh all titles, desc, tags
+      -w, --write [editor|index]
+                           open editor to edit a fresh bookmark
+                           edit last bookmark, if index=-1
+                           to specify index, EDITOR must be set
+      -d, --delete [...]   remove bookmarks from DB
+                           accepts indices or a single range
+                           if no arguments:
+                           - delete results when used with search
+                           - otherwise delete all bookmarks
+      -h, --help           show this information and exit
+      -v, --version        show the program version and exit
 
-- The SQLite3 database file is stored in:
-  - **$XDG_DATA_HOME/buku/bookmarks.db**, if XDG_DATA_HOME is defined (first preference) or
-  - **$HOME/.local/share/buku/bookmarks.db**, if HOME is defined (second preference) or
-  - the **current directory**, e.g. on Windows.
-- Before version 1.9, `buku`stored its database in **$HOME/.cache/buku/bookmarks.db**. If the file exists, buku automatically moves it to new location.
-- The database index for entries starts from 1. Index 0 is used for special operations like show or refresh or delete all bookmarks.
-- It's  advisable  to copy URLs directly from the browser address bar, i.e., along with the leading `http://` or `https://` token. `buku` looks up title data (found within <title></title> tags of HTML) from the web ONLY for fully-formed HTTP(S) URLs.
-- If the URL contains characters like `;`, `&` or brackets they may be interpreted specially by the shell. To avoid it, add the URL within single or double (`'`/`"`) quotes.
-- The same URL cannot be added twice. You can update tags and re-fetch title data. You can also insert a new bookmark at a free index.
-- You can either add or update or delete record(s) in one instance. A combination of these operations is not supported in a single run.
-- Search works in mysterious ways:
-  - Case-insensitive.
-  - Substrings match (`match` matches `rematched`) for URL, title and tags.
-  - `-s` : match any of the keywords in URL, title or tags.
-  - `-S` : match all the keywords in URL, title or tags.
-  - You can search bookmarks by tag (see example).
-  - Search results are indexed serially. This index is different from actual database index of a bookmark record which is shown within `()` after the URL.
-- When a record is deleted, the last record is moved to the index.
-- AES256 is used for encryption. Optionally specify (`-t`) the number of hash iterations to use to generate key. Default is 8 iterations.
-- Encryption is optional and manual. If you choose to use encryption, the database file should be unlocked (`-k`) before using buku and locked (`-l`) afterwards. Between these 2 operations, the database file lies unencrypted on the disk, and NOT in memory. Also, note that the database file is <i>unencrypted on creation</i>.
+EDIT OPTIONS:
+      --url keyword        bookmark link
+      --tag [+|-] [...]    comma-separated tags
+                           clear bookmark tagset, if no arguments
+                           '+' appends to, '-' removes from tagset
+      --title [...]        bookmark title; if no arguments:
+                           -a: do not set title, -u: clear title
+      -c, --comment [...]  notes or description of the bookmark
+                           clears description, if no arguments
+      --immutable N        disable web-fetch during auto-refresh
+                           N=0: mutable (default), N=1: immutable
 
-# Examples
-1. **Add** a bookmark with **tags** `linux news` and `open source`, **fetch page title** from the web:
+SEARCH OPTIONS:
+      -s, --sany [...]     find records with ANY matching keyword
+                           this is the default search option
+      -S, --sall [...]     find records matching ALL the keywords
+                           special keywords -
+                           "blank": entries with empty title/tag
+                           "immutable": entries with locked title
+      --deep               match substrings ('pen' matches 'opens')
+      -r, --sreg expr      run a regex search
+      -t, --stag [tag [,|+] ...] [- tag, ...]
+                           search bookmarks by tags
+                           use ',' to find entries matching ANY tag
+                           use '+' to find entries matching ALL tags
+                           excludes entries with tags after ' - '
+                           list all tags, if no search keywords
+      -x, --exclude [...]  omit records matching specified keywords
 
-        $ buku -a http://tuxdiary.com linux news, open source
-        Title: [TuxDiary | Linux, open source and a pinch of leisure.]
-        Added at index 15012014
-2. **Add** a bookmark with **manual title** `Linux magazine` & tags `linux news` and `open source`:
+ENCRYPTION OPTIONS:
+      -l, --lock [N]       encrypt DB in N (default 8) # iterations
+      -k, --unlock [N]     decrypt DB in N (default 8) # iterations
 
-        $ buku -a -m 'Linux magazine' http://tuxdiary.com linux news, open source
-        Added at index 15012014
-Note that URL must precede tags. Multiple words in title must be within quotes.
-The assigned automatic index 15012014 is unique, one greater than highest index already in use in database.
-3. **Add** a bookmark **without a title** (works for update and insert too):
+POWER TOYS:
+      --ai                 auto-import from Firefox/Chrome/Chromium
+      -e, --export file    export bookmarks to Firefox format html
+                           export markdown, if file ends with '.md'
+                           format: [title](url), 1 entry per line
+                           export orgfile, if file ends with '.org'
+                           format: *[[url][title]], 1 entry per line
+                           export buku DB, if file ends with '.db'
+                           combines with search results, if opted
+      -i, --import file    import bookmarks html in Firefox format
+                           import markdown, if file ends with '.md'
+                           import orgfile, if file ends with '.org'
+                           import buku DB, if file ends with '.db'
+      -p, --print [...]    show record details by indices, ranges
+                           print all bookmarks, if no arguments
+                           -n shows the last n results (like tail)
+      -f, --format N       limit fields in -p or Json search output
+                           N=1: URL, N=2: URL and tag, N=3: title,
+                           N=4: URL, title and tag. To omit DB index,
+                           use N0, e.g., 10, 20, 30, 40.
+      -j, --json           Json formatted output for -p and search
+      --colors COLORS      set output colors in five-letter string
+      --nc                 disable color output
+      -n, --count N        show N results per page (default 10)
+      --np                 do not show the prompt, run and exit
+      -o, --open [...]     browse bookmarks by indices and ranges
+                           open a random bookmark, if no arguments
+      --oa                 browse all search results immediately
+      --replace old new    replace old tag with new tag everywhere
+                           delete old tag, if new tag not specified
+      --shorten index|URL  fetch shortened url from tny.im service
+      --expand index|URL   expand a tny.im shortened url
+      --cached index|URL   browse a cached page from Wayback Machine
+      --suggest            show similar tags when adding bookmarks
+      --tacit              reduce verbosity
+      --threads N          max network connections in full refresh
+                           default N=4, min N=1, max N=10
+      -V                   check latest upstream version available
+      -z, --debug          show debug information and verbose logs
 
-        $ buku -a -m none http://tuxdiary.com linux news, open source
-4. **Update** existing bookmark at index 15012014 with new URL and tags, fetch title from the web:
+SYMBOLS:
+      >                    url
+      +                    comment
+      #                    tags
 
-        $ buku -u 15012014 http://tuxdiary.com/ linux news, open source, magazine
-        Title: [TuxDiary | Linux, open source and a pinch of leisure.]
-        Updated index 15012014
-Tags are updated too. Original tags are removed.
-5. **Update** or refresh **full DB** with page titles from the web:
+PROMPT KEYS:
+    1-N                    browse search result indices and/or ranges
+    O [id|range [...]]     open search results/indices in GUI browser
+                           toggle try GUI browser if no arguments
+    a                      open all results in browser
+    s keyword [...]        search for records with ANY keyword
+    S keyword [...]        search for records with ALL keywords
+    d                      match substrings ('pen' matches 'opened')
+    r expression           run a regex search
+    t [tag, ...]           search by tags; show taglist, if no args
+    g taglist id|range [...] [>>|>|<<] [record id|range ...]
+                           append, set, remove (all or specific) tags
+                           search by taglist id(s) if records are omitted
+    n                      show next page of search results
+    o id|range [...]       browse bookmarks by indices and/or ranges
+    p id|range [...]       print bookmarks by indices and/or ranges
+    w [editor|id]          edit and add or update a bookmark
+    c id                   copy url at search result index to clipboard
+    ?                      show this help
+    q, ^D, double Enter    exit buku
+```
 
-        $ buku -u 0
-This operation does not modify the indexes, URLs or tags. Only titles, if non-empty, are refreshed. Any index other than 0 refreshes title for that index.
-6. **Delete** bookmark at index 15012014:
+#### Colors
+
+`buku` supports custom colors. Visit the wiki page on how to [customize colors](https://github.com/jarun/Buku/wiki/Customize-colors) for more details.
+
+### Quickstart
+
+1. Export `VISUAL` or `EDITOR` to point to your favourite editor. Note that `VISUAL` takes precedence over `EDITOR`.
+2. Create a sweeter shortcut with some convenience.
+
+       alias b='buku --suggest'
+3. Auto-import bookmarks from your browser(s).
+
+       b --ai
+4. Manually add a bookmark (for hands-on).
+
+       b -w
+5. List your bookmarks with DB index.
+
+       b -p
+6. For GUI and browser integration (or to sync bookmarks with your favourite bookmark management service) refer to the wiki page on [System integration](https://github.com/jarun/Buku/wiki/System-integration).
+
+### Examples
+
+1. **Edit and add** a bookmark from editor:
+
+       $ buku -w
+       $ buku -w 'gedit -w'
+       $ buku -w 'macvim -f' -a https://ddg.gg search engine, privacy
+    The first command picks editor from the environment variable `EDITOR`. The second command opens gedit in blocking mode. The third command opens macvim with option -f and the URL and tags populated in template.
+2. **Add** a bookmark with **tags** `search engine` and `privacy`, **comment** `Search engine with perks`, **fetch page title** from the web:
+
+       $ buku -a https://ddg.gg search engine, privacy -c Search engine with perks
+       336. DuckDuckGo
+       > https://ddg.gg
+       + Alternative search engine with perks
+       # privacy,search engine
+    where, >: url, +: comment, #: tags
+3. **Add** a bookmark with tags `search engine` & `privacy` and **immutable custom title** `DDG`:
+
+       $ buku -a https://ddg.gg search engine, privacy --title 'DDG' --immutable 1
+       336. DDG (L)
+       > https://ddg.gg
+       # privacy,search engine
+    Note that URL must precede tags.
+4. **Add** a bookmark **without a title** (works for update too):
+
+       $ buku -a https://ddg.gg search engine, privacy --title
+5. **Edit and update** a bookmark from editor:
+
+       $ buku -w 15012014
+    This will open the existing bookmark's details in the editor for modifications. Environment variable `EDITOR` must be set.
+6. **Update** existing bookmark at index 15012014 with new URL, tags and comments, fetch title from the web:
+
+       $ buku -u 15012014 --url http://ddg.gg/ --tag web search, utilities -c Private search engine
+7. **Fetch and update only title** for bookmark at 15012014:
+
+       $ buku -u 15012014
+8. **Update only comment** for bookmark at 15012014:
+
+       $ buku -u 15012014 -c this is a new comment
+    Applies to --url, --title and --tag too.
+9. **Export** bookmarks tagged `tag 1` or `tag 2` to HTML, markdown, orgfile or a new database:
+
+       $ buku -e bookmarks.html --stag tag 1, tag 2
+       $ buku -e bookmarks.md --stag tag 1, tag 2
+       $ buku -e bookmarks.org --stag tag 1, tag 2
+       $ buku -e bookmarks.db --stag tag 1, tag 2
+    All bookmarks are exported if search is not opted.
+10. **Import** bookmarks from HTML, markdown or orgfile:
+
+        $ buku -i bookmarks.html
+        $ buku -i bookmarks.md
+        $ buku -i bookmarks.org
+        $ buku -i bookmarks.db
+11. **Delete only comment** for bookmark at 15012014:
+
+        $ buku -u 15012014 -c
+    Applies to --title and --tag too. URL cannot be deleted without deleting the bookmark.
+12. **Update** or refresh **full DB** with page titles from the web:
+
+        $ buku -u
+        $ buku -u --tacit (show only failures and exceptions)
+    This operation does not modify the indexes, URLs, tags or comments. Only title is refreshed if fetched title is non-empty.
+13. **Delete** bookmark at index 15012014:
 
         $ buku -d 15012014
         Index 15012020 moved to 15012014
-The last index is moved to the deleted index to keep the DB compact.
-7. **Delete all** bookmarks:
+    The last index is moved to the deleted index to keep the DB compact.
+14. **Delete all** bookmarks:
 
-        $ buku -d 0
-8. List **all unique tags** alphabetically:
+        $ buku -d
+15. **Delete** a **range or list** of bookmarks:
 
-        $ buku -g
-8. **Insert** a bookmark at index 15012014 (fails if index or URL exists in database):
+        $ buku -d 100-200
+        $ buku -d 100 15 200
+16. **Search** bookmarks for **ANY** of the keywords `kernel` and `debugging` in URL, title or tags:
 
-        $ buku -i 15012014 http://tuxdiary.com/about linux news, open source
-        Title: [A journey with WordPress | TuxDiary]
-        Added at index 15012014
-10. **Replace a tag** with new one:
-
-        $ buku -r 'old tag' 'new tag'
-11. **Delete a tag** from DB:
-
-        $ buku -r 'old tag'
-12. **Show info** on bookmark at index 15012014:
-
-        $ buku -p 15012014
-13. **Show all** bookmarks with real index from database:
-
-        $ buku -p 0
-14. **Open URL** at index 15012014 in browser:
-
-        $ buku -o 15012014
-15. **Search** bookmarks for **ANY** of the keywords `*kernel*` and `*debugging*` in URL, title or tags:
-
+        $ buku kernel debugging
         $ buku -s kernel debugging
-16. **Search** bookmarks with **ALL** the keywords `*kernel*` and `*debugging*` in URL, title or tags:
+17. **Search** bookmarks with **ALL** the keywords `kernel` and `debugging` in URL, title or tags:
 
         $ buku -S kernel debugging
+18. **Search** bookmarks **tagged** `general kernel concepts`:
 
-17. **Search** bookmarks tagged `general kernel concepts`:
+        $ buku --stag general kernel concepts
+19. **Search** for bookmarks matching **ANY** of the tags `kernel`, `debugging`, `general kernel concepts`:
 
-        $ buku -S ',general kernel concepts,'
-Note the commas (,) before and after the tag.
-18. Encrypt/decrypt DB with **custom number of iterations** to generate key:
+        $ buku --stag kernel, debugging, general kernel concepts
+20. **Search** for bookmarks matching **ALL** of the tags `kernel`, `debugging`, `general kernel concepts`:
 
-        $ buku -l -t 15
-        $ buku -k -t 15
-The same number of iterations must be used for one lock & unlock instance.
-19. Show **debug info**:
+        $ buku --stag kernel + debugging + general kernel concepts
+21. **Search** for bookmarks matching any of the keywords `hello` or `world`, excluding the keywords `real` and `life`, matching both the tags `kernel` and `debugging`, but **excluding** the tags `general kernel concepts` and `books`:
 
-        $ buku -z ...
-20. More **help**:
+        $ buku hello world --exclude real life --stag 'kernel + debugging - general kernel concepts, books'
+22. List **all unique tags** alphabetically:
 
-        $ buku
+        $ buku --stag
+23. Run a **search and update** the results:
+
+        $ buku -s kernel debugging -u --tag + linux kernel
+24. Run a **search and delete** the results:
+
+        $ buku -s kernel debugging -d
+25. **Encrypt or decrypt** DB with **custom number of iterations** (15) to generate key:
+
+        $ buku -l 15
+        $ buku -k 15
+    The same number of iterations must be specified for one lock & unlock instance. Default is 8, if omitted.
+26. **Show details** of bookmarks at index 15012014 and ranges 20-30, 40-50:
+
+        $ buku -p 20-30 15012014 40-50
+27. Show details of the **last 10 bookmarks**:
+
+        $ buku -p -10
+28. **Show all** bookmarks with real index from database:
+
+        $ buku -p
+        $ buku -p | more
+29. **Replace tag** 'old tag' with 'new tag':
+
+        $ buku --replace 'old tag' 'new tag'
+30. **Delete tag** 'old tag' from DB:
+
+        $ buku --replace 'old tag'
+31. **Append (or delete) tags** 'tag 1', 'tag 2' to (or from) existing tags of bookmark at index 15012014:
+
+        $ buku -u 15012014 --tag + tag 1, tag 2
+        $ buku -u 15012014 --tag - tag 1, tag 2
+32. **Open URL** at index 15012014 in browser:
+
+        $ buku -o 15012014
+33. List bookmarks with **no title or tags** for bookkeeping:
+
+        $ buku -S blank
+34. List bookmarks with **immutable title**:
+
+        $ buku -S immutable
+35. **Shorten URL** www.google.com and the URL at index 20:
+
+        $ buku --shorten www.google.com
+        $ buku --shorten 20
+36. **Append, remove tags at prompt** (taglist index to the left, bookmark index to the right):
+
+        // append tags at taglist indices 4 and 6-9 to existing tags in bookmarks at indices 5 and 2-3
+        buku (? for help) g 4 9-6 >> 5 3-2
+        // set tags at taglist indices 4 and 6-9 as tags in bookmarks at indices 5 and 2-3
+        buku (? for help) g 4 9-6 > 5 3-2
+        // remove all tags from bookmarks at indices 5 and 2-3
+        buku (? for help) g > 5 3-2
+        // remove tags at taglist indices 4 and 6-9 from tags in bookmarks at indices 5 and 2-3
+        buku (? for help) g 4 9-6 << 5 3-2
+37. List bookmarks with **colored output**:
+
+        $ buku --colors oKlxm -p
+38. More **help**:
+
+        $ buku -h
         $ man buku
 
-## Bookkeeping
+### Troubleshooting
 
-1. To list bookmarks with **no title or tags**:
+#### Editor integration
 
-        $ buku -e
-Use the `-u` option to add title or tags to those entries, if you want to.
-2. `buku` doesn't have any **import feature** of its own. To import URLs in **bulk**, create a script with URLs and tags like the following (check TIP below):
+You may encounter issues with GUI editors which maintain only one instance by default and return immediately from other instances. Use the appropriate editor option to block the caller when a new document is opened. See issue [#210](https://github.com/jarun/Buku/issues/210) for gedit.
 
-        #!/bin/bash
-        buku -a https://wireless.wiki.kernel.org/ networking, device drivers
-        buku -a https://courses.engr.illinois.edu/ece390/books/artofasm/ArtofAsm.html assembly
-        buku -a http://www.tittbit.in/
-        buku -a http://www.mikroe.com/chapters/view/65/ electronics
-        buku -a "http://msdn.microsoft.com/en-us/library/bb470206(v=vs.85).aspx" file systems
-        buku -a http://www.ibm.com/developerworks/linux/library/l-linuxboot/index.html boot process
-Make the script executable and run to batch add bookmarks.
-3. To **update selected URLs** (refresh) along with your tags, first get the unformatted selective output with URL and tags:
+### Collaborators
 
-        $ buku -p 0 -x 2 | tee myurls
-Remove the lines you don't need. Add `buku -u ` in front of all the other lines (check TIP below). Should look like:
+- [Arun Prakash Jana](https://github.com/jarun)
+- [Rachmadani Haryono](https://github.com/rachmadaniHaryono)
+- [Johnathan Jenkins](https://github.com/shaggytwodope)
+- [SZ Lin](https://github.com/szlin)
 
-        #!/bin/bash
-        buku -u 50 https://wireless.wiki.kernel.org/ networking, device drivers
-        buku -u 51 https://courses.engr.illinois.edu/ece390/books/artofasm/ArtofAsm.html assembly
-        buku -u 52 http://www.tittbit.in/
-        buku -u 53 http://www.mikroe.com/chapters/view/65/ electronics
-        buku -u 54 "http://msdn.microsoft.com/en-us/library/bb470206(v=vs.85).aspx" file systems
-        buku -u 55 http://www.ibm.com/developerworks/linux/library/l-linuxboot/index.html boot process
-Run the script:
+Copyright © 2015-2018 [Arun Prakash Jana](mailto:engineerarun@gmail.com)
+<br>
+<p><a href="https://gitter.im/jarun/Buku"><img src="https://img.shields.io/gitter/room/jarun/buku.svg?maxAge=2592000" alt="gitter chat" /></a></p>
 
-        $ chmod +x myurls
-        $ ./myurls
+### Contributions
 
+Missing a feature? There's a rolling [ToDo List](https://github.com/jarun/Buku/issues/268) with identified tasks. Contributions are welcome! Please follow the [PR guidelines](https://github.com/jarun/Buku/wiki/PR-guidelines).
 
-####TIP
+### Related projects
 
-Add the same text at the beginning of multiple lines:
+- [bukubrow](https://github.com/SamHH/bukubrow), WebExtension for browser integration
+- [oil](https://github.com/AndreiUlmeyda/oil), search-as-you-type cli frontend
+- [buku_run](https://github.com/carnager/buku_run), rofi frontend
+- [pinku](https://github.com/mosegontar/pinku), a Pinboard-to-Buku import utility
+- [buku-dmenu](https://gitlab.com/benoliver999/buku-dmenu), a simple bash dmenu wrapper
 
-**vim**
-  - Press `Ctrl-v` to select the first column of text in the lines you want to change (visual mode).
-  - Press `Shift-i` and type the text you want to insert.
-  - Hit `Esc`, wait 1 second and the inserted text will appear on every line.
+<a href="http://buku.readthedocs.io/en/stable/?badge=stable"><img src="https://img.shields.io/badge/docs-stable-brightgreen.svg?maxAge=2592000" alt="Stable Docs" /></a>
 
-**sed**
+### In the Press
 
-    $ sed -i 's/^/buku -u /' filename
-
-# Contributions
-Pull requests are welcome. Some of the features I have in mind are:
-- Support subcommands using argparse
-- Ubuntu deb package
-- Merge bookmark database files (for users who work on multiple systems)
-- Exact word match (against substring in a word as it works currently. Hint: REGEXP)
-- Parse full page data??? Might end up writing a search engine like Google. ;)
-- Anything else which would add value (please raise an issue for discussion)
-
-# Developers
-[Arun Prakash Jana](mailto:engineerarun@gmail.com)
-
-Special thanks to the community for valuable suggestions and ideas.
+- [2daygeek](http://www.2daygeek.com/buku-command-line-bookmark-manager-linux/)
+- [It's F.O.S.S.](https://itsfoss.com/buku-command-line-bookmark-manager-linux/)
+- [LinOxide](https://linoxide.com/linux-how-to/buku-browser-bookmarks-linux/)
+- [LinuxUser Magazine 01/2017 Issue](http://www.linux-community.de/LU/2017/01/Das-Beste-aus-zwei-Welten)
+- [Make Tech Easier](https://www.maketecheasier.com/manage-browser-bookmarks-ubuntu-command-line/)
+- [One Thing Well](http://onethingwell.org/post/144952807044/buku)
+- [Open Source For You](https://opensourceforu.com/2018/05/buku-a-bookmark-manager-in-the-command-line/)
+- [ulno.net](https://ulno.net/blog/2017-07-19/of-bookmarks-tags-and-browsers/)
