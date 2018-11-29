@@ -28,9 +28,9 @@
 
 `buku` is a powerful bookmark manager written in Python3 and SQLite3. When I started writing it, I couldn't find a flexible cmdline solution with a private, portable, merge-able database along with seamless GUI integration. Hence, `Buku` (after my son's nickname, meaning *close to the heart* in my language).
 
-`buku` fetches the title, tags and description of a bookmarked url from the web and stores it. You can use your favourite editor to compose and update bookmarks. With multiple search options, including regex and a deep scan mode (particularly for URLs), it can find any bookmark instantly. Multiple search results can be opened in the browser at once. `buku` can look up the latest snapshot of a broken link on the Wayback Machine. There's an Easter egg to revisit random forgotten bookmarks too! *Buku* is too busy to track you - no hidden history, obsolete records, usage analytics or homing. For more details, please refer to the wiki page on [operational notes](https://github.com/jarun/Buku/wiki/Operational-notes).
-
 [bukuserver](https://github.com/jarun/Buku/tree/master/bukuserver) exposes a browsable frontend on a local webhost server.
+
+`buku` fetches the title, tags and description of a bookmarked url from the web and stores it. You can use your favourite editor to compose and update bookmarks. With multiple search options, including regex and a deep scan mode (particularly for URLs), it can find any bookmark instantly. Multiple search results can be opened in the browser at once. `buku` can look up the latest snapshot of a broken link on the Wayback Machine. There's an Easter egg to revisit random forgotten bookmarks too! *Buku* is too busy to track you - no hidden history, obsolete records, usage analytics or homing. For more details, please refer to the wiki page on [operational notes](https://github.com/jarun/Buku/wiki/Operational-notes).
 
 To get started right away, jump to the [Quickstart](#quickstart) section. We have one of the best documentation around. You'll find handy examples in the man page too.
 
@@ -112,7 +112,10 @@ To copy url to clipboard at the prompt `Buku` uses `xsel` (or `xclip`) on Linux,
 - [NixOS](https://github.com/NixOS/nixpkgs/tree/master/pkgs/applications/misc/buku) (`nix-env -i buku`)
 - [OpenBSD](https://cvsweb.openbsd.org/cgi-bin/cvsweb/ports/www/buku/) (`pkg_add buku`)
 - [openSUSE](https://software.opensuse.org/search?q=buku) (`zypper in python3-buku`)
-- [PyPi](https://pypi.python.org/pypi/buku/) (`pip3 install buku`)
+- [PyPI](https://pypi.python.org/pypi/buku/) (`pip3 install buku`)
+- [Raspbian Testing](https://archive.raspbian.org/raspbian/pool/main/b/buku/) (`apt-get install buku`)
+- [Slackware](http://slackbuilds.org/repository/14.2/desktop/Buku/) (`slackpkg install googler`)
+- [Termux](https://pypi.python.org/pypi/buku/) (`pip3 install buku`)
 - [Ubuntu](https://packages.ubuntu.com/search?keywords=buku&searchon=names&exact=1) (`apt-get install buku`)
 - [Ubuntu PPA](https://launchpad.net/~twodopeshaggy/+archive/ubuntu/jarun/) (`apt-get install buku`)
 - [Void Linux](https://github.com/voidlinux/void-packages/tree/master/srcpkgs/buku) (`xbps-install -S buku`)
@@ -141,8 +144,8 @@ To remove, run:
 
 `buku` is a standalone utility. From the containing directory, run:
 
-    $ chmod +x buku.py
-    $ ./buku.py
+    $ chmod +x buku
+    $ ./buku
 
 ### Shell completion
 
